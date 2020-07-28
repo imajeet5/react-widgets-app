@@ -1,8 +1,18 @@
 import React from "react";
-import Accordion from "./components/Accordion";
 import Search from "./components/Search";
 
-const items = [
+const App = () => {
+  return (
+    <div>
+      <Search />
+    </div>
+  );
+};
+
+export default App;
+
+/**
+ * const items = [
   {
     title: "What is React?",
     content: "React is a front end javascript framework",
@@ -16,13 +26,4 @@ const items = [
     content: "You use React by creating components",
   },
 ];
-
-const App = () => {
-  return (
-    <div>
-      <Accordion items={items} />
-    </div>
-  );
-};
-
-export default App;
+ */
