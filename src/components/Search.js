@@ -3,13 +3,25 @@ import axios from "axios";
 
 const Search = (props) => {
   const [term, setTerm] = useState("programming");
+  const [debouncedTerm, setDebouncedTerm] = useState(term);
   const [results, setResults] = useState([]);
 
   console.log("I run with every render");
   console.log(results);
 
+  // In this function we will update the debounceTerm. Every time the term value is change the code inside of it will execute
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedTerm(term);
+    }, 1000);
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [term]);
+
   // We want to do the api call every single time user presses a key
   // so useEffect will run initially then every time component re-render and term changes
+  // We do not need any if condition here to check the result length
   useEffect(() => {
     const search = async () => {
       const { data } = await axios.get("https://en.wikipedia.org/w/api.php", {
@@ -18,7 +30,7 @@ const Search = (props) => {
           list: "search",
           origin: "*",
           format: "json",
-          srsearch: term,
+          srsearch: debouncedTerm,
         },
       });
 
@@ -26,20 +38,10 @@ const Search = (props) => {
         setResults(data.query.search);
       }
     };
+    search()
+  }, [debouncedTerm]);
 
-    if (term && !results.length) {
-      search();
-    } else {
-      const timerRef = setTimeout(() => {
-        if (term) search();
-      }, 1000);
 
-      return () => {
-        console.log("Clean up");
-        clearTimeout(timerRef);
-      };
-    }
-  }, [term, results.length]);
 
   const renderedResults = results.map((result) => {
     return (
