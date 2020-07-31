@@ -34,14 +34,13 @@ const Search = (props) => {
         },
       });
 
-      if (data.query) {
-        setResults(data.query.search);
+      if (window.location.pathname !== "/list") {
+        return;
       }
+      setResults(data.query.search);
     };
-    search()
+    search();
   }, [debouncedTerm]);
-
-
 
   const renderedResults = results.map((result) => {
     return (

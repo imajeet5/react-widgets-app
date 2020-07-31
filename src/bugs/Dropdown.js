@@ -5,6 +5,8 @@ const Dropdown = ({ options, selected, onSelectedChange }) => {
   const [index, setIndex] = useState(1);
   const ref = useRef();
 
+  // are we are using the index variable here but it is not passed into the array, so as useEffect is executed once and initial value 
+  // is used by the callback in 
   useEffect(() => {
     document.body.addEventListener("click", (event) => {
       if (ref.current.contains(event.target)) return;
